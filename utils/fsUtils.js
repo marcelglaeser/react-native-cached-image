@@ -2,7 +2,7 @@
 
 const _ = require('lodash');
 
-const RNFetchBlob = require('react-native-fetch-blob').default;
+const RNFetchBlob = require('rn-fetch-blob').default;
 
 const {
     fs
@@ -36,7 +36,8 @@ function ensurePath(path) {
         })
         .catch(err => {
             // ignore folder already exists errors
-            if (err.message.includes('folder already exists')) {
+            // double E in the error code is not a mistake (see POSIX error codes)
+            if (err.code === 'EEXIST' || err.message.includes('already exists')) {
                 return;
             }
             throw err;
